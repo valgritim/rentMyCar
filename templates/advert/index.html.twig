@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos annonces{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="my-3">Les annonces de nos particuliers</h1>   
+
+    <div class="row">
+    {% for i in 0..20 %}
+                <div class="col-md-4">
+            <div class="card mb-3 border-warning">
+                <div class="card-header text-center">
+                    <p class="card-text">Fiat Tipo <strong>5 Places</strong></p>
+                    <small>Pas encore noté!</small>
+                </div>
+                    <img style="height: 200px; width: 100%; display: block;" src="http://placehold.it/1000x400">
+                
+                <div class="card-body">
+                    <h4 class="card-title">Quasi-neuve!</h4>
+                    <p class="card-texte">Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, nihil doloremque provident fugit quis saepe! Maiores provident explicabo accusamus optio.</p>
+                    <a href="#" class="btn btn-primary">Voir le véhicule</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    
+    </div>
+
+</div>
+
+{% endblock %}
