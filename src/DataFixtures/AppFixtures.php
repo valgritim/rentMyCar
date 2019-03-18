@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
             $advert->setTitle($title)
                     ->setCoverImage($coverImage)
                    ->setIntroduction("Je propose ma voiture en location")
-                   ->setContent("<p>Disponibilité: immédiate, me contacter</p>")
+                   ->setContent("Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque nulla expedita maiores, fugit vel est non repudiandae totam? Sed, corporis")
                    ->setPrice(mt_rand(40, 200))
                    ->setSeats(mt_rand(2, 5));
 

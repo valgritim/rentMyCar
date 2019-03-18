@@ -7,19 +7,25 @@
     <h1 class="my-3">Les annonces de nos particuliers</h1>   
 
     <div class="row">
-    {% for i in 0..20 %}
+    {% for advert in adverts %}
                 <div class="col-md-4">
             <div class="card mb-3 border-warning">
                 <div class="card-header text-center">
-                    <p class="card-text">Fiat Tipo <strong>5 Places</strong></p>
+                 <a href="{{ path('adverts_show',{ 'slug': advert.slug} )}}">
+                    <h4 class="card-title">{{ advert.title }}</h4>
+                    <p class="card-text">{{ advert.price}} euros/jour - <strong>{{ advert.seats}} Places</strong></p>
                     <small>Pas encore noté!</small>
+                </a>
                 </div>
-                    <img style="height: 200px; width: 100%; display: block;" src="http://placehold.it/1000x400">
+                <a href="{{ path('adverts_show',{ 'slug': advert.slug} )}}">
+                    <img style="height: 200px; width: 100%; display: block;" src="{{ advert.coverImage}}"> 
+                </a>
+                   
                 
                 <div class="card-body">
-                    <h4 class="card-title">Quasi-neuve!</h4>
-                    <p class="card-texte">Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, nihil doloremque provident fugit quis saepe! Maiores provident explicabo accusamus optio.</p>
-                    <a href="#" class="btn btn-primary">Voir le véhicule</a>
+                    <p class="card-text">{{ advert.introduction }}</p>
+                    <p class="card-texte">{{ advert.content }}</p>
+                    <a href="{{ path('adverts_show',{ 'slug': advert.slug} )}}" class="btn btn-primary">Voir le véhicule</a>
                 </div>
             </div>
         </div>

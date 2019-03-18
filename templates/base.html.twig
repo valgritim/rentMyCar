@@ -3,7 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>RentMyCar {% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/app.css">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -19,7 +20,7 @@
                         <a class="nav-link" href="{{ path('homepage')}}">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
+                        <a class="nav-link" href="{{ path('adverts_index')}}">Annonces</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Pricing</a>
@@ -36,9 +37,9 @@
             </div>
         </nav>
         {% block body %}{% endblock %}
-        <script src= "js/jquery.min.js"></script>
-        <script src= "js/popper.min.js"></script>
-        <script src= "js/bootstrap.min.js"></script>
+        <script src= "/js/jquery.min.js"></script>
+        <script src= "/js/popper.min.js"></script>
+        <script src= "/js/bootstrap.min.js"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
