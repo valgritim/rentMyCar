@@ -58,12 +58,12 @@ class Advert
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="advert", orphanRemoval=true)
      */
-    private $advImages;
+    private $images;
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
-        $this->advImages = new ArrayCollection();
+        //$this->images = new ArrayCollection();
     }
 
     /**
@@ -174,28 +174,28 @@ class Advert
     /**
      * @return Collection|Image[]
      */
-    public function getAdvImages(): Collection
+    public function getImages(): Collection
     {
-        return $this->advImages;
+        return $this->images;
     }
 
-    public function addAdvImage(Image $advImage): self
+    public function addImage(Image $image): self
     {
-        if (!$this->advImages->contains($advImage)) {
-            $this->advImages[] = $advImage;
-            $advImage->setAdvert($this);
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setAdvert($this);
         }
 
         return $this;
     }
 
-    public function removeAdvImage(Image $advImage): self
+    public function removeImage(Image $image): self
     {
-        if ($this->advImages->contains($advImage)) {
-            $this->advImages->removeElement($advImage);
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
             // set the owning side to null (unless already changed)
-            if ($advImage->getAdvert() === $this) {
-                $advImage->setAdvert(null);
+            if ($image->getAdvert() === $this) {
+                $image->setAdvert(null);
             }
         }
 

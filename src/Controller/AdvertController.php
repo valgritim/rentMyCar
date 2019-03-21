@@ -35,7 +35,7 @@ class AdvertController extends AbstractController
      * @return Response
      */
 
-     public function create2(Request $request, ObjectManager $manager){ //Request $request recupere les données du formulaire apres submit
+     public function create(Request $request, ObjectManager $manager){ //Request $request recupere les données du formulaire apres submit
 
         $advert = new Advert();               
 

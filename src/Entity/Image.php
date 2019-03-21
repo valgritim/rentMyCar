@@ -27,7 +27,7 @@ class Image
     private $caption;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Advert", inversedBy="advImages")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Advert", inversedBy="Images")
      * @ORM\JoinColumn(nullable=false)
      */
     private $advert;

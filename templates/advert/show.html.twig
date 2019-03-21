@@ -22,13 +22,13 @@
                 {{ advert.content | raw }}
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
-                        {% for image in advert.advImages %}
+                        {% for image in advert.images %}
                             <li data-target="#carouselExampleIndicators" data-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %}></li>
                         {% endfor %}
                         
                     </ol>
                     <div class="carousel-inner">
-                        {% for image in advert.advImages %}
+                        {% for image in advert.images %}
                         <div class="carousel-item {% if loop.first %}active {% endif %}">
                             <img src="{{ image.url }}" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">

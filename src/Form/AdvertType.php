@@ -65,7 +65,7 @@ class AdvertType extends AbstractType
                 MoneyType::class, 
                 $this->getConfiguration('Prix', 'Entrez un tarif journalier'))
             ->add(
-                'advImages',
+                'images',
                 CollectionType::class,// on veut répéter un formulaire en entier dans notre grand formulaire
                 [
                     'entry_type' => ImageType::class,//chaque entrée de la collection
