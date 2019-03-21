@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Entity\Advert;
 use App\Form\AdvertType;
 use App\Repository\AdvertRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +26,7 @@ class AdvertController extends AbstractController
             'adverts' => $adverts
         ]);
     }
-
+   
      /**
      * Permet de créer une annonce
      * 
@@ -32,12 +35,28 @@ class AdvertController extends AbstractController
      * @return Response
      */
 
-     public function create(){
+     public function create2(Request $request, ObjectManager $manager){ //Request $request recupere les données du formulaire apres submit
 
-        $advert = new Advert();
+        $advert = new Advert();               
 
         $form = $this->createForm(AdvertType::class, $advert);
+        $form->handleRequest($request);//le form va récuperer les infos grace à request et les lier à $advert; donc il connait les champs 
+        //verification du submit et des données avant envoi par Doctrine à la BD
+        
+               
+        if($form->isSubmitted() && $form->isValid()){
+            // $manager = $this->getDoctrine()->getManager();j'ai mis en arg le manager et importé le package donc plus besoin de faire l'appel
+            $manager->persist($advert);
+            $manager->flush();
+           
+            
+            $this->addFlash('success', "L'annonce <strong>{$advert->getTitle()}</strong> a bien été enregistrée! ");
 
+            return $this->redirectToRoute('adverts_show', [
+                'slug' => $advert->getSlug()
+            ]);
+        }
+        
         return $this->render('advert/new.html.twig',
             [
                 'form' => $form->createView()

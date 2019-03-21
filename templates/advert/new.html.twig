@@ -2,19 +2,76 @@
 
 {% block title %}Création d'une annonce{% endblock %}
 
-{% form_theme form _self %}
-{% block body %}
+{% form_theme form _self %} {# <-- je dis à twig d'utiliser comme theme de formulaire pour le formulaire qui s'appelle form le theme qui est définidans ce fichier! #}
 
+{% block body %}
     <div class="container">
     
         <h1>Créer une nouvelle annonce</h1>
 
-        {{ form_start(form) }}
+        {{ form_start(form) }} 
 
-        {{ form_widget(form)}}
+        {{ form_widget(form) }}
+        
 
         <input type="submit" class="btn btn-primary" value="Créer la nouvelle annonce">
         {{ form_end(form) }}
     </div>
 {% endblock %}
+
+{% block _advert_advImages_widget %}
+    <p>Ici, vous pouvez ajouter vos propres images!</p>
+    {{ form_widget(form) }}
+    <div class="form-group">
+        <button type=" button" id="add-image" class="btn btn-primary">Ajouter une image</button>
+    </div>
+
+{% endblock %}
+{% block _advert_advImages_entry_row %} {# theme qui va etre récupéré poar form#}
+    
+    {{ form_widget(form) }} {# je n'appelle plus que le widget d'une entree qui est 2 champs, je ne veux pas toute la row qui me donne le labl les erreurs et les aides#}
+{% endblock %}
+{% block _advert_advImages_entry_widget %}
+    <div class="form-group" id="block_{{id}}"> {#je recupere l'id dans les variables du champ - vir dump#}
+        <div class="row">
+            <div class="col-10">
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(form.url) }}
+                    </div>
+                    <div class="col">
+                        {{ form_widget(form.caption) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-danger" data-action="delete" data-target="#block_{{id}}">X</button>
+            </div>
+        </div>        
+    </div>
+{% endblock %}
+{% block javascripts %} {# va me permettre de rajouter du js#}
+    <script>
+    $('#add-image').click(function(){
+        //je récupère le nombre de div ayant la class form group pour savoir a quel num j'en suis
+        const index = $('#advert_advImages div.form-group').length;
+        //je récupere le prototype des entrées
+        const template = $('#advert_advImages').data('prototype').replace(/__name__/g, index);
+        //J'injecte ce code au sein de la div
+        $('#advert_advImages').append(template);
+        handleDeleteButton();
+    });
+    function handleDeleteButton(){
+        $('button[data-action="delete"]').click(function(){
+            const target = this.dataset.target; //this:btn sur lequel clik, dataset=ts les attr data qq chose et target parceque que je veux acceder à l'attr target
+        $(target).remove();
+       
+        });
+
+    }
+    
+    </script>
+{% endblock %}
+
+
 
