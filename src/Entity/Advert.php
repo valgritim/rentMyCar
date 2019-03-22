@@ -66,7 +66,10 @@ class Advert
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="advert", orphanRemoval=true)
+     * @Assert\Valid() 
      */
+
+     //valid permet de forcer symfony à valider les sous formulaires dc les images
     private $images;
 
     public function __construct()

@@ -2,7 +2,7 @@
 
 {% block title %}Création d'une annonce{% endblock %}
 
-{% form_theme form _self %} {# <-- je dis à twig d'utiliser comme theme de formulaire pour le formulaire qui s'appelle form le theme qui est définidans ce fichier! #}
+{% form_theme form 'advert/_collection.html.twig' %} {# <-- je dis à twig d'utiliser comme theme de formulaire pour le formulaire qui s'appelle form le theme qui est définidans ce fichier! #}
 
 {% block body %}
     <div class="container">
@@ -19,63 +19,8 @@
     </div>
 {% endblock %}
 
-{% block _advert_images_widget %}
-    <p>Ici, vous pouvez ajouter vos propres images!</p>
-    {{ form_widget(form) }}
-
-    <input type="hidden" id="widgets-counter" value="0">
-
-    <div class="form-group">
-        <button type=" button" id="add-image" class="btn btn-primary">Ajouter une image</button>
-    </div>
-
-{% endblock %}
-{% block _advert_images_entry_row %} {# theme qui va etre récupéré poar form#}
-    
-    {{ form_widget(form) }} {# je n'appelle plus que le widget d'une entree qui est 2 champs, je ne veux pas toute la row qui me donne le labl les erreurs et les aides#}
-{% endblock %}
-{% block _advert_images_entry_widget %}
-    <div class="form-group" id="block_{{id}}"> {#je recupere l'id dans les variables du champ - vir dump#}
-        <div class="row">
-            <div class="col-10">
-                <div class="row">
-                    <div class="col">
-                        {{ form_widget(form.url) }}
-                    </div>
-                    <div class="col">
-                        {{ form_widget(form.caption) }}
-                    </div>
-                </div>
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-danger" data-action="delete" data-target="#block_{{id}}">X</button>
-            </div>
-        </div>        
-    </div>
-{% endblock %}
 {% block javascripts %} {# va me permettre de rajouter du js#}
-    <script>
-    $('#add-image').click(function(){
-        //je récupère la valeur du compteur qui est normalement à 0
-        const index = +$('#widgets-counter').val(); //si je ne rajoute pas un + ça retourne une chaine de caratère et donc le prochain index sera 01.Avec le plus ça devent un nbre
-        console.log(index);
-        //je récupere le prototype des entrées
-        const template = $('#advert_images').data('prototype').replace(/__name__/g, index);
-        //J'injecte ce code au sein de la div
-        $('#advert_images').append(template);
-        $("#widgets-counter").val(index + 1);
-        handleDeleteButton();
-    });
-    function handleDeleteButton(){
-        $('button[data-action="delete"]').click(function(){
-            const target = this.dataset.target; //this:btn sur lequel clik, dataset=ts les attr data qq chose et target parceque que je veux acceder à l'attr target
-        $(target).remove();
-       
-        });
-
-    }
-    
-    </script>
+    <script src="/js/annonces.js"></script>
 {% endblock %}
 
 

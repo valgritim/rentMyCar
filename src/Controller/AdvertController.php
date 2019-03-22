@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
 class AdvertController extends AbstractController
 {
     /**
@@ -67,6 +68,43 @@ class AdvertController extends AbstractController
                 'form' => $form->createView()
             ]);
      }
+    /**
+     * Permet d'afficher une seule annonce
+     * 
+     * @Route("/adverts/{slug}/edit", name= "adverts_edit")
+     * 
+     * @return Response
+     */
+
+     public function edit(Advert $advert, Request $request, ObjectManager $manager){             
+
+        $form = $this->createForm(AdvertType::class, $advert);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            // $manager = $this->getDoctrine()->getManager();j'ai mis en arg le manager et importé le package donc plus besoin de faire l'appel
+            foreach($advert->getImages() as $image){
+                $image->setAdvert($advert);
+                $manager->persist($image);
+            }
+            
+            $manager->persist($advert);
+            $manager->flush();
+           
+            
+            $this->addFlash('success', "L'annonce <strong>{$advert->getTitle()}</strong> a bien été modifiée! ");
+
+            return $this->redirectToRoute('adverts_show', [
+                'slug' => $advert->getSlug()
+            ]);
+        }
+
+        return $this->render('advert/edit.html.twig',
+                [
+                    'form' => $form->createView(),
+                    'advert' => $advert
+                ]);
+        }
 
     /**
      * Permet d'afficher une seule annonce

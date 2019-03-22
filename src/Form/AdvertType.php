@@ -72,7 +72,8 @@ class AdvertType extends AbstractType
                 CollectionType::class,// on veut répéter un formulaire en entier dans notre grand formulaire
                 [
                     'entry_type' => ImageType::class,//chaque entrée de la collection
-                    'allow_add' => true
+                    'allow_add' => true,
+                    'allow_delete' => true
                 ]
             );
     }
