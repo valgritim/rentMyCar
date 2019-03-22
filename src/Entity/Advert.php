@@ -6,10 +6,14 @@ use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert; //vérifications pour la validation des champs
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AdvertRepository")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(
+ *  fields={"title"},
+ *  message="Une autre annonce posède déjà ce titre, merci de modifier!")
  */
 class Advert
 {
@@ -22,6 +26,7 @@ class Advert
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=10, max=255, minMessage="Le titre doit faire plus de 10 caractères", maxMessage="Le titre doit faire moins de 255 caractères")
      */
     private $title;
 
@@ -32,21 +37,25 @@ class Advert
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Length(min=2, minMessage="Le montant doit avoir minimum 2 chiffres")
      */
     private $price;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=20, minMessage="Le titre doit faire plus de 20 caractères")
      */
     private $introduction;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=100, minMessage="Votre annonce doit faire plus de 100 caractères")
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url()
      */
     private $coverImage;
 

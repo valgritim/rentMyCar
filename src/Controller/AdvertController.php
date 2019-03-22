@@ -46,6 +46,11 @@ class AdvertController extends AbstractController
                
         if($form->isSubmitted() && $form->isValid()){
             // $manager = $this->getDoctrine()->getManager();j'ai mis en arg le manager et importé le package donc plus besoin de faire l'appel
+            foreach($advert->getImages() as $image){
+                $image->setAdvert($advert);
+                $manager->persist($image);
+            }
+            
             $manager->persist($advert);
             $manager->flush();
            

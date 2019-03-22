@@ -22,16 +22,17 @@ class AdvertType extends AbstractType
      *
      * @param string $label
      * @param string $placeholder
+     * @param array $options
      * @return array
      */
-    private function getConfiguration($label, $placeholder){
-
-        return [
+    private function getConfiguration($label, $placeholder, $options = []){
+        //array merge permet de merger l array label+attr avec l array d'options facultatif. voir slug
+        return array_merge([
             'label'=> $label,
             'attr' => [
                 'placeholder' => $placeholder
-            ]
-            ];
+                 ]
+            ], $options);
     }
     public function buildForm(FormBuilderInterface $builder, array $options) //dc pas besoin de la methode createFormBuilder()
     {
@@ -43,7 +44,9 @@ class AdvertType extends AbstractType
             ->add(
                 'slug', 
                 TextType::class, 
-                $this->getConfiguration('Adresse web', "Tapez l'adresse web (automatique)"))
+                $this->getConfiguration('Adresse web', "Tapez l'adresse web (automatique)", [
+                    'required' => false
+                ])) //le slug va se créer tout seul avec la fonction prepersist 'initializeSlug'
             ->add(
                 'coverImage', 
                 UrlType::class, 
