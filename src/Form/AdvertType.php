@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Advert;
 use App\Form\ImageType;
+use App\Form\ApplicationType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,26 +15,8 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class AdvertType extends AbstractType
+class AdvertType extends ApplicationType
 {
- 
-    /**
-     * Permet d'avoir la configuration de base d'un champ
-     *
-     * @param string $label
-     * @param string $placeholder
-     * @param array $options
-     * @return array
-     */
-    private function getConfiguration($label, $placeholder, $options = []){
-        //array merge permet de merger l array label+attr avec l array d'options facultatif. voir slug
-        return array_merge([
-            'label'=> $label,
-            'attr' => [
-                'placeholder' => $placeholder
-                 ]
-            ], $options);
-    }
     public function buildForm(FormBuilderInterface $builder, array $options) //dc pas besoin de la methode createFormBuilder()
     {
         $builder
