@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Form\AccountType;
 
 class AccountController extends AbstractController
 {
@@ -66,7 +67,7 @@ class AccountController extends AbstractController
              $manager->persist($user);
              $manager->flush();
 
-             $this->addFlash('success', 'Votre compte a bien été créé, vous pouvez maintenant vous connecter!');
+             $this->addFlash('success', 'Votre compte a bien été créé, vous pouvez maintenant vous connecter !');
 
              return $this->redirectToRoute('account_login');
          }
@@ -76,5 +77,30 @@ class AccountController extends AbstractController
         ]);
      }
 
+     /**
+      * Permet d'afficher et de traiter le formulaire de modification de profil
+      *
+      * @Route("/account/profile", name="account_profile")
+      *
+      * @return Response
+      */
+
+     public function profile(Request $request, ObjectManager $manager){
+
+        $user = $this->getUser();
+         
+        $form = $this->createForm(AccountType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $manager->persist($user);
+            $manager->flush();
+            $this->addFlash('success', "Les données du profil ont été enregistrées avec succès !");
+        }
+
+        return $this->render('account/profile.html.twig', [
+            'form' => $form->createView()
+        ]);
+     }
 
 }
