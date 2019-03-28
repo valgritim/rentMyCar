@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\AccountType;
+use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
+use App\Form\PasswordUpdateType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,7 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Form\AccountType;
 
 class AccountController extends AbstractController
 {
@@ -102,5 +105,46 @@ class AccountController extends AbstractController
             'form' => $form->createView()
         ]);
      }
+
+    /**
+     * Permet d'afficher et de traiter le formulaire de modif du mot de passe
+     * 
+     * @Route("/account/updatePassword", name="account_password")
+     *
+     * @return Response
+     */
+    public function updatePassword(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder){
+        $updatePwd = new PasswordUpdate();
+        //le user est deja connecté, plus qu'à récupérer ses données
+        $user = $this->getUser();
+
+        $form = $this->createForm(PasswordUpdateType::class, $updatePwd);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            //verification  du oldPassword par rapport à c eque j'ai dans la BDD
+            if(!password_verify($updatePwd->getOldPassword(), $user->getHash())){
+                //symfony me permet d'acceder au champ de mon formulaire
+                $form->get('oldPassword')->addError(new FormError("le mot de passe saisi est erroné !"));
+            } else {
+                $newPassword = $updatePwd->getNewPassword();
+                $hashPwd = $encoder->encodePassword($user, $newPassword);
+                echo $hashPwd;
+                $user->setHash($hashPwd);
+
+                $manager->persist($user);
+                $manager->flush();
+
+                $this->addFlash('success', 'Le mot de passe a bien été modifié !');
+
+                return $this->redirectToRoute('homepage');
+            }          
+        }
+
+       return $this->render('account/password.html.twig', [
+           'form' => $form->createView()
+       ]);
+    }
 
 }
