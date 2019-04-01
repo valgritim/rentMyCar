@@ -8,28 +8,7 @@
 
     <div class="row">
     {% for advert in adverts %}
-        {% set url= path('adverts_show',{'slug': advert.slug}) %}
-                <div class="col-md-4">
-            <div class="card mb-3 border-warning">
-                <div class="card-header text-center">
-                 <a href="{{ url }}">
-                    <h4 class="card-title">{{ advert.title }}</h4>
-                    <p class="card-text">{{ advert.price}} euros/jour - <strong>{{ advert.seats}} Places</strong></p>
-                    <small>Pas encore noté!</small>
-                </a>
-                </div>
-                <a href="{{ url }}">
-                    <img style="height: 200px; width: 100%; display: block;" src="{{ advert.coverImage}}"> 
-                </a>
-                   
-                
-                <div class="card-body">
-                    <p class="card-text">{{ advert.introduction }}</p>
-                    <p class="card-texte">{{ advert.content }}</p>
-                    <a href="{{ url }}" class="btn btn-primary">Voir le véhicule</a>
-                </div>
-            </div>
-        </div>
+        {% include 'advert/_adverts.html.twig' %}
     {% endfor %}
     
     </div>
