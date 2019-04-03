@@ -10,10 +10,16 @@
         <div class="col-3 text-center">
             <img src="{{ user.picture }}" class="avatar mb-3"alt="Avatar de {{ user.firstName }} {{ user.lastName }}">
             <br/>
-            <span class="badge badge-primary">{{ user.adverts | length }} annonces</span>
+            <span class="badge badge-primary">{{ user.adverts | length }} annonce(s)</span>
         </div>
         <div class="col-9">
             <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+            {% if user is same as (app.user)%}
+            {# is same permet de comparer 2 objets, je veux être sùre que c'est bien le compte mon user que je regarde et non celui d'un user dont je veux voir les annonces#}
+                <a href="{{ path('account_profile') }}" class="btn btn-primary">Modifier mon profil</a>
+                <a href="{{ path('account_password') }}" class="btn btn-primary">Modifier mon mot de passe</a>
+            
+            {% endif %}
         </div>
     </div>
     {{ user.description | raw }}

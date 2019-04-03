@@ -85,9 +85,15 @@ class User implements UserInterface
      */
     private $adverts;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Roles", mappedBy="users")
+     */
+    private $userRoles;
+
     public function __construct()
     {
         $this->adverts = new ArrayCollection();
+        $this->userRoles = new ArrayCollection();
     }
 
     /**
@@ -240,7 +246,11 @@ class User implements UserInterface
 
     public function getRoles(){
 
-        return ['ROLE_USER'];
+        $roles = $this->userRoles->map(function($role){
+            return $role->getTitle();
+        })->toArray();
+        $roles[] = 'ROLE_USER';
+        return $roles;
     }
 
     public function getPassword(){
@@ -258,5 +268,33 @@ class User implements UserInterface
 
     public function eraseCredentials(){
         //on ne s'en sert pas ici parce qu'on ne stocke pas le texte plein pour le pwd.
+    }
+
+    /**
+     * @return Collection|Roles[]
+     */
+    public function getUserRoles(): Collection
+    {
+        return $this->userRoles;
+    }
+
+    public function addUserRole(Roles $userRole): self
+    {
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles[] = $userRole;
+            $userRole->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRole(Roles $userRole): self
+    {
+        if ($this->userRoles->contains($userRole)) {
+            $this->userRoles->removeElement($userRole);
+            $userRole->removeUser($this);
+        }
+
+        return $this;
     }
 }

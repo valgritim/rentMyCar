@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -33,6 +35,8 @@ class AdvertController extends AbstractController
      * 
      * @Route("/adverts/new", name="adverts_create")
      * 
+     * @IsGranted("ROLE_USER")
+     * 
      * @return Response
      */
 
@@ -51,6 +55,8 @@ class AdvertController extends AbstractController
                 $image->setAdvert($advert);
                 $manager->persist($image);
             }
+
+            $advert->setAuthor($this->getUser()); //l'annonce doit etre liée au user qui est connecté
             
             $manager->persist($advert);
             $manager->flush();
@@ -72,6 +78,7 @@ class AdvertController extends AbstractController
      * Permet d'afficher une seule annonce
      * 
      * @Route("/adverts/{slug}/edit", name= "adverts_edit")
+     * @Security("is_granted('ROLE_USER') and user == advert.getAuthor()")
      * 
      * @return Response
      */
@@ -124,7 +131,25 @@ class AdvertController extends AbstractController
                 'advert' => $advert
         ]);
 
+
     }
-   
+
+    /**
+     * Permet de supprimer une annonce
+     * 
+     * @Route("/adverts/{slug}/delete", name="adverts_delete")
+     * @Security("is_granted('ROLE_USER') and user == advert.getAuthor()")
+     * 
+     * @return Response
+     */
+    
+    public function delete(Advert $advert, ObjectManager $manager){
+        $manager->remove($advert);
+        $manager->flush();
+
+        $this->addFlash("success", "L'annonce a bien été supprimée !");
+        return $this->redirectToRoute("adverts_index");
+
+    }
 
 }
