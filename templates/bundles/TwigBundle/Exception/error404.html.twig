@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page non trouvée{% endblock %}
+{% block body %}
+    <div class="container">
+        <h1>OUPS! La page que vous recherchez n'existe pas ! </h1>
+            <div class="text-center">
+               <img src="https://stealthily.files.wordpress.com/2013/09/chien-vieux-triste-barbara-helgason-fotolia.jpg" alt="chien triste">
+                <p class="mt-5">On a dû mal vous renseigner :)  mais pas de soucis, vous pouvez retourner à l'accueil !</p>
+                <a href="{{ path('homepage') }}">Retourner à l'accueil</a>
+            </div>
+        
+        
+    </div>
+{% endblock %}

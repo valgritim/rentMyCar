@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title%}Ressource interdite{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Nous n'avez pas l'autorisation d'accéder à cette ressource :( </h1>
+        <div class="text-center">
+            <img src="https://images.emojiterra.com/google/android-pie/512px/1f44e.png" class="w-25 h-25" alt="Pas bien!">
+             <a class="d-block mt-4" href="{{ path('homepage') }}">Retourner à l'accueil</a>
+        </div>
+        
+    </div>
+    
+{% endblock %}
