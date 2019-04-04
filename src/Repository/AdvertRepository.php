@@ -1,11 +1,8 @@
 <?php
-
 namespace App\Repository;
-
 use App\Entity\Advert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-
 /**
  * @method Advert|null find($id, $lockMode = null, $lockVersion = null)
  * @method Advert|null findOneBy(array $criteria, array $orderBy = null)
@@ -18,7 +15,6 @@ class AdvertRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Advert::class);
     }
-
     // /**
     //  * @return Advert[] Returns an array of Advert objects
     //  */
@@ -35,7 +31,6 @@ class AdvertRepository extends ServiceEntityRepository
         ;
     }
     */
-
     /*
     public function findOneBySomeField($value): ?Advert
     {
@@ -48,3 +43,4 @@ class AdvertRepository extends ServiceEntityRepository
     }
     */
 }
+

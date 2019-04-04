@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Entity\Image;
 use App\Entity\Roles;
 use App\Entity\Advert;
+use App\Entity\Booking;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Role\Role;
@@ -94,14 +95,38 @@ class AppFixtures extends Fixture
                     ->setAdvert($advert);
                 $manager->persist($image);
             }
-            
-            $manager->persist($advert);
 
-        }
+            //gestion des réservations
+
+            for($j = 1; $j <= mt_rand(0, 10); $j++){
+                $booking = new Booking();
+
+                $createdAt = $faker->dateTimeBetween('-6 months');
+                $startDate = $faker->dateTimeBetween('-3 months');
+
+                $duration = mt_rand(3, 10);
+                $endDate = (clone $startDate)->modify("+$duration days");
+                $amount = $advert->getPrice() * $duration;
+                $booker = $users[mt_rand(0, count($users) -1)];
+                $comment = $faker->paragraph();
+
+                $booking->setBooker($booker)
+                        ->setAdvert($advert)
+                        ->setStartDate($startDate)
+                        ->setEndDate($endDate)
+                        ->setCreatedAt($createdAt)
+                        ->setAmount($amount)
+                        ->setComment($comment);
+                $manager->persist($booking);
+            
+            }
+
+            $manager->persist($advert);
 
         // $product = new Product();
         // $manager->persist($product);
 
         $manager->flush($advert);
     }
+}
 }

@@ -12,7 +12,7 @@
                 <p class="h2">
                     <strong>{{ advert.seats }} places</strong> pour <strong>{{ advert.price}} Euros</strong> par jour
                 </p>
-                <a href="#" class="btn btn-primary">Réserver!</a>
+                <a href="{{ path('booking_create', {'slug': advert.slug }) }}" class="btn btn-primary">Réserver!</a>
 
                 {% if app.user and app.user is same as (advert.author) %}
                     <a href="{{ path('adverts_edit', { 'slug': advert.slug }) }}" class="btn btn-secondary">Modifier mon annonce</a>
