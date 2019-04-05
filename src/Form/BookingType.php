@@ -17,7 +17,7 @@ class BookingType extends ApplicationType
         $builder
             ->add('startDate', DateType::class, $this->getConfiguration("Date de récupération du véhicule", "Date à partir de laquelle vous souhaitez louer le véhicule", ['widget' =>'single_text']))
             ->add('endDate', DateType::class, $this->getConfiguration("Date de fin de location", "Date à laquelle vous restituez le véhicule", ['widget' =>'single_text']))
-            ->add('comment', TextareaType::class, $this->getConfiguration(false, "Si vous souhaitez laisser un commentaire...")); 
+            ->add('comment', TextareaType::class, $this->getConfiguration(false, "Si vous souhaitez laisser un commentaire...", ['required' => false])); 
         
     }
 
