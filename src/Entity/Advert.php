@@ -105,6 +105,29 @@ class Advert
             $this->slug = $slugify->slugify($this->title);
         }
     }
+    /**
+     * Permet d'obtenir un tableau des jours non dispo pour le véhicule
+     *
+     * @return array //tableau d'objet DateTime représentant les jours d'occupation
+     */
+    public function getNotAvailableDays(){
+        $notAvailableDays = [];
+        foreach($this->bookings as $booking){
+            //Calculer les jours qui se trouvent entre la date de depart et la date de restitution
+            $resultat = range(
+                $booking->getStartDate()->getTimestamp(), //va chercher date depart et transforme en timestamp
+                $booking->getEndDate()->getTimestamp(), //idem date restitution
+                24 * 60 * 60 //24h*60min*60s
+            );
+            $days = array_map(function($dayTimestamp){
+                return new \DateTime(date('Y-m-d', $dayTimestamp));
+            }, $resultat);
+            //je remappe mon tableau en tableau ayant les dates au format date à partir du timestamp de chaque jour
+            $notAvailableDays = array_merge($notAvailableDays, $days);
+        }
+        return $notAvailableDays;
+
+    }
 
     public function getId(): ?int
     {

@@ -50,3 +50,7 @@ div.card{
     max-width: 24px;
     max-height: 24px;
 }
+.datepicker table tr td.disabled, .datepicker table tr td.disabled:hover{
+    color: whitesmoke !important;
+    background-color: lightsteelblue !important;
+}

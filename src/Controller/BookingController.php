@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Common\Persistence\ObjectManager;
 
+
 class BookingController extends AbstractController
 {
     /**
@@ -30,13 +31,20 @@ class BookingController extends AbstractController
 
             $booking->setBooker($user)
                     ->setAdvert($advert);
-                
+            //Si les dates ne sont pas dispo, message d'erreur
+            
+            if(!$booking->isBookableDates()){
+                $this->addFlash('warning', 'Les dates que vous avez choisies sont déjà prises ! ');
+            } else { 
+                //sinon enregistrement et redirection
+                        
 
             $manager->persist($booking);
             $manager->flush();
 
             return $this->redirectToRoute('booking_show', ['id' => $booking->getId(), 'success' => true]);
             //success va passer en parametre en GET ex /booking/180?success=true
+            }
         }
        
 
