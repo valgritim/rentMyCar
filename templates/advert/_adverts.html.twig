@@ -6,8 +6,12 @@
         <div class="card-header text-center">
             <a href="{{ url }}">
                 <h4 class="card-title">{{ advert.title }}</h4>
-                <p class="card-text">{{ advert.price}} euros/jour - <strong>{{ advert.seats}} Places</strong></p>
-                <small>Pas encore noté!</small>
+                <p class="card-text">{{ advert.price | number_format(2, ',', ' ')}} &euro; /jour - <strong>{{ advert.seats}} Places</strong></p>
+                {% if advert.comments | length == 0 %}
+                    <small>Pas encore noté!</small>
+                {% else %}
+                    <small>{% include 'partials/rating.html.twig' with {'rating': advert.avgRatings }%}</small>
+                {% endif %}
             </a>
         </div>
             <a href="{{ url }}">
@@ -17,7 +21,7 @@
         <div class="card-body">
             <p class="card-text">{{ advert.introduction }}</p>
             <p class="card-texte">{{ advert.content }}</p>
-                <a href="{{ url }}" class="btn btn-primary">Voir le véhicule</a>
+                <a href="{{ url }}" class="btn btn-primary float-right">Voir le véhicule</a>
             {% if app.user and app.user is same as (advert.author) %}
                 <a href="{{ path('adverts_edit', { 'slug': advert.slug }) }}" class="btn btn-secondary">Modifier l'annonce</a>
                 <a href="{{ path('adverts_delete', { 'slug': advert.slug }) }}" class="btn btn-danger" onclick= "return confirm(`Etes-vous sûr de vouloir supprimer l'annonce {{ advert.title }} ?`)">Supprimer l'annonce</a>

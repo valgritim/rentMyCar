@@ -54,3 +54,87 @@ div.card{
     color: whitesmoke !important;
     background-color: lightsteelblue !important;
 }
+span.rating i{
+    color: goldenrod;
+}
+a#lienNote{
+
+    color: orange!important;
+}
+#monfooter{
+    
+    width:100%;
+    bottom: 0;
+    margin-bottom: 0 !important;
+
+}
+
+/*Media queries*/
+
+@media(max-width:480px){
+
+    #bienvenue{
+
+        font-size: 24px;
+    }
+    #inscription{
+        font-size: 21px;
+        text-align: center;
+    }
+    #stars{
+
+        font-size: 21px;
+        text-align: center;
+    }
+    #voirAnnonces{
+        align-self: center;
+    }
+    #proprioStars{
+        font-size: 21px;
+        text-align: center;
+    }
+    #indexh1{
+        font-size: 21px;
+        text-align: center;
+    }
+    #advertTitle{
+        font-size: 24px;
+    }
+    #noComment, #comments, #resaAnnonce{
+        font-size: 21px;
+    }
+    .note{
+        font-size:18px;
+    }
+    .titreSubmit{
+        font-size: 21px;
+    }
+    #userh1, #userh2{
+        font-size: 21px;
+        text-align: center;
+        margin-top: 10px;
+    }
+    a.profil{
+        margin: 10px;
+    }
+    #profil{
+        text-align: center;
+    }
+    .info{
+        font-size: 18px;
+    }
+    /* template modification pwd */
+    #modifpwd{
+        font-size: 18px;
+        text-align: center;
+    }
+     /* template réservations */
+    #resa{
+        font-size: 21px;
+        text-align: center;
+    }
+    #plusinfo{
+        margin-bottom: 20px !important;
+    }
+
+}

@@ -6,16 +6,16 @@
 {% block body %}
 <div class="container">
     <div class="jumbotron mt-2">
-        <h1 class="display-3">Bienvenue sur RentMyCar</h1>
+        <h1 class="display-3" id="bienvenue">Bienvenue sur RentMyCar</h1>
             <img class="img-fluid w-25 mx-auto pb-2" src="images/voiture.png" alt="voiture jaune">
         <p class="lead float-right mr-3 mt-3">Vous n'avez pas toujours besoin de votre véhicule? Louez-le !</p>
         <hr class="my-4">
         <p>Vous avez le permis mais pas de voiture?  Vous voulez bénéficier d'un véhicule pour votre prochain déplacement ou pendant vos vacances?</p>
         <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Voir nos annonces</a>
+            <a id="voirAnnonces"class="btn btn-primary btn-lg mt-3" href="{{ path('adverts_index')}}" role="button">Voir nos annonces</a>
         </p>
     </div>
-    <h2>Nos voitures stars</h2>
+    <h2 id="stars">Nos voitures stars</h2>
     <div class="row mt-4 mb-3">
         <div class="col-md-4">
             <div class="card mb-3 border-warning">
@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    <h2 class="mt-4 mb-3">Nos propriétaires stars</h2>
+    <h2 id="proprioStars"class="mt-4 mb-3">Nos propriétaires stars</h2>
     <div class="row">
         <div class="col">
             <div class="card border-secondary mb-3">

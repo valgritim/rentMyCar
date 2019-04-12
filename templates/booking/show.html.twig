@@ -34,9 +34,9 @@
                         <dt class="col-md-5">Nombre de jours</dt>
                         <dd class="col-md-7">{{ booking.duration }}</dd>
                         <dt class="col-md-5">Montant total</dt>
-                        <dd class="col-md-7">{{ booking.amount }} &euro;</dd>
+                        <dd class="col-md-7">{{ booking.amount | number_format(2, ',', ' ')}} &euro;</dd>
                         <dt class="col-md-5">Vos commentaires</dt>
-                        <dd class="col-md-7">{{ booking.comment }}</dd>
+                        <dd class="col-md-7">{{ booking.comment | default("Aucun commentaire") }}</dd>
                     </dl>
                     <hr/>
                     <h2 class="alert-heading">Votre loueur</h2>
@@ -51,7 +51,23 @@
                             <span class="badge badge-primary">{{ booking.advert.author.adverts | length}} annonces</span>
                         </div>
                     </div>
-
+               </div>
+               <div class="alert alert-light" id="comment">
+                        <h2 class="alert-heading">Votre avis compte ! </h2>
+                        {% if date() > date(booking.EndDate) %}
+                            {% set comment = booking.advert.commentFromAuthor(app.user) %}
+                            {% if comment is not null %}
+                                <blockquote>{{ comment.content}}</blockquote>
+                                <strong>Note: </strong>{% include 'partials/rating.html.twig' with {'rating': comment.rating} %}
+                            {% else %}
+                                {{ form_start(form) }}
+                                 {{ form_widget(form) }}
+                                    <button type="submit" class="btn btn-success">Confirmer ! </button>
+                                 {{ form_end(form) }}
+                            {% endif %}
+                        {% else %}
+                            <p>Vous ne pourrez pas noter cette réservation avant la date de restitution</p>
+                        {% endif %}
                 </div>
             </div>
             <div class="col">

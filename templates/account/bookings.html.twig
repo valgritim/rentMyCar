@@ -4,24 +4,33 @@
 
 {% block body %}
     <div class="container">
-        <h1>Réservations</h1>
+        <h1 id="resa">Réservations</h1>
         <div class="alert alert-info mt-3">
             <p>Retrouvez ci-dessous toutes vos réservations</p>
         </div>
 
         {% for booking in app.user.bookings %}
             <div class="row bg-light my-3">
-                <div class="col-4 my-4">
+                <div class="col-md-4 my-4">
                     <img src="{{ booking.advert.coverImage }}" alt="Photo de l'annonce {{ booking.advert.title }}" class="image-fluid w-100">
+                    <div class="mt-3">
+                        {% set comment = booking.advert.commentFromAuthor(app.user) %}
+                        {% if comment is not null %}
+                            <strong>Note donnée : </strong>{% include 'partials/rating.html.twig ' with {'rating': comment.rating }%}
+                        {% else %}
+                            Vous n'avez pas encore donné de note. <br>
+                            <a id="lienNote" href="{{ path('booking_show', {'id': booking.id })}}"#comment>Je souhaite donner une note ! </a><i class="fas fa-thumbs-up"></i>
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="col-8">
+                <div class="col-md-8">
                     <h4>{{ booking.advert.title }}</h4>
                     <p>
                         Réservation <strong>n° {{ booking.id}}</strong><br>
                         Du {{ booking.startDate | date('d/m/Y') }} au {{ booking.endDate | date('d/m/Y') }}.
-                        Prix total: {{ booking.amount }} &euro;
+                        Prix total: {{ booking.amount | number_format(2, ',', ' ')}} &euro;
                     </p>
-                    <a href="{{ path('booking_show', {'id': booking.id }) }}" class="btn btn-info">Plus d'informations</a>
+                    <a href="{{ path('booking_show', {'id': booking.id }) }}" class="btn btn-info mb-2" id="plusinfo">Plus d'informations</a>
                 </div>
             </div>
         {% endfor %}

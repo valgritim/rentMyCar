@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use Cocur\Slugify\Slugify;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert; //vérifications pour la validation des champs
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert; //vérifications pour la validation des champs
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AdvertRepository")
  * @ORM\HasLifecycleCallbacks
@@ -83,10 +84,16 @@ class Advert
       */
      private $bookings;
 
+     /**
+      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="advert", orphanRemoval=true)
+      */
+     private $comments;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->bookings = new ArrayCollection();
+        $this->comments = new ArrayCollection();
         //$this->images = new ArrayCollection();
     }
 
@@ -105,6 +112,36 @@ class Advert
             $this->slug = $slugify->slugify($this->title);
         }
     }
+    /**
+     * Permet de récupérer le commentaire d'un user pour une annonce
+     * 
+     * @param User $author
+     * @return Comment|null
+     */
+    public function getCommentFromAuthor(User $user){
+
+        foreach($this->comments as $comment){
+            if($comment->getAuthor() === $user) return $comment;
+        }
+        return null;
+    }
+    /**
+     * Permet d'obtenir la moyenne des notes pour cette annonce
+     * 
+     * @return float
+     *
+     * @return void
+     */
+    public function getAvgRatings(){
+        //calculer la somme des notations
+        $sum = array_reduce($this->comments->toArray(), function($total, $comment){
+            return $total + $comment->getRating();
+        },0);
+        //calculer la moyenne
+        if (count($this->comments) > 0) return $sum / count($this->comments); 
+        return 0;
+    }
+
     /**
      * Permet d'obtenir un tableau des jours non dispo pour le véhicule
      *
@@ -286,6 +323,37 @@ class Advert
             // set the owning side to null (unless already changed)
             if ($booking->getAdvert() === $this) {
                 $booking->setAdvert(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setAdvert($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getAdvert() === $this) {
+                $comment->setAdvert(null);
             }
         }
 

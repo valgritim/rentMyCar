@@ -7,12 +7,12 @@
     
         <div class="advertTitle" style="background-image:url({{advert.coverImage}})">
             <div class="container">
-                <h1>{{ advert.title }}</h1>
+                <h1 id="advertTitle">{{ advert.title }}</h1>
                 <p>{{ advert.introduction }}</p>
                 <p class="h2">
-                    <strong>{{ advert.seats }} places</strong> pour <strong>{{ advert.price}} Euros</strong> par jour
+                    <strong>{{ advert.seats }} places</strong> pour <strong>{{ advert.price | number_format(2, ',', ' ')}} &euro;</strong> par jour
                 </p>
-                <a href="{{ path('booking_create', {'slug': advert.slug }) }}" class="btn btn-primary">Réserver!</a>
+                <a href="{{ path('booking_create', {'slug': advert.slug }) }}" class="btn btn-primary btn-lg mt-3">Réserver!</a>
 
                 {% if app.user and app.user is same as (advert.author) %}
                     <a href="{{ path('adverts_edit', { 'slug': advert.slug }) }}" class="btn btn-secondary">Modifier mon annonce</a>
@@ -54,6 +54,36 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
+                <hr>
+                {% if advert.comments | length > 0 %}
+                    <h2 class="mb-3 text-center" id="comments">Commentaires de nos locataires</h2>
+                    <div class="alert alert-info">
+                        <h4 class="alert-heading">
+                            <div class="row align-items-center">
+                                <div class="col text-center note">
+                                    Note globale donnée par nos locataires <br>
+                                   
+                                </div>
+                                <div class="col text-center">
+                                    {% include 'partials/rating.html.twig' with {'rating': advert.avgRatings} %}<br>
+                                     <small>(Calculée sur {{ advert.comments | length }} avis )</small> 
+                                </div>
+                            </div>
+                        
+                        </h4>
+                    </div>
+                    
+                    {% for comment in advert.comments %}
+                        <div class="bg-light rounded mb-3 p-3">
+                            <strong>{{ comment.author.firstName}} a dit :</strong>
+                            <blockquote>{{ comment.content }}</blockquote>
+                            <strong>Note donnée :</strong>
+                            {% include 'partials/rating.html.twig' with { 'rating': comment.rating }%}
+                        </div>
+                    {% endfor %}
+                    {% else %}
+                    <h2 id="noComment">Cette annonce n'a pas encore reçu de commentaire.</h2>
+                {% endif %}
             </div>
             <div class="col">
             {% set a = advert.author %}
