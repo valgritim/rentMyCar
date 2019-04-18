@@ -45,6 +45,10 @@ div.card{
     max-width: 64px;
     max-height: 64px;
 }
+.avatar-admin{
+    max-width: 40px;
+    max-height: 40px;
+}
 .avatar-mini{
 
     max-width: 24px;

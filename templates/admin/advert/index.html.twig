@@ -1,0 +1,46 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des annonces{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <h1 class="my-5">Gestion des annonces</h1>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th class="text-center">Réservations</th>
+                <th class="text-center">Note</th>
+                <th>Actions</th>
+            </tr>        
+        </thead>
+        <tbody>
+            {% for advert in adverts %}
+            <tr>
+                <td>{{ advert.id }}</td>
+                <td>{{ advert.title }}</td>
+                <td>
+                    <img class="img-thumbnail avatar-admin" src="{{ advert.author.picture}}" alt="">
+                {{ advert.author.firstName }} {{ advert.author.lastName }}</td>
+                <td class="text-center">
+                    <span class="badge badge-primary rounded">Bookings : {{ advert.bookings | length }}</span>
+                </td>
+                <td class="text-center">
+                    <span class="badge badge-primary rounded">Note : {{ advert.avgRatings | number_format(2, ",", " ")}}</span>                
+                </td>
+                <td>
+                <a href="{{ path('admin_adverts_edit', { 'id': advert.id })}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    
+    
+    </table>
+
+</div>
+{% endblock %}

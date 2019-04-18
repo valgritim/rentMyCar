@@ -57,7 +57,7 @@ class AppFixtures extends Fixture
             $pictureId = $faker->numberBetween(1,99) . '.jpg';
             $picture .= ($genre == 'male' ? 'men/' : 'women/') . $pictureId;
 
-            $hash = $this->encoder->encodePassword($user, 'password'); //j encode le mot en dur
+            $hash = $this->encoder->encodePassword($user, 'valgritim'); //j encode le mot en dur
 
             $user->setFirstName($faker->firstName($genre))
                 ->setLastName($faker->lastName)
