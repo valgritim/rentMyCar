@@ -36,6 +36,8 @@ class BookingType extends ApplicationType
     {
         $resolver->setDefaults([
             'data_class' => Booking::class,
+            'validation_group' => ['default', 'front']
+            //Voir l'entité booking: la validation group est utilisée pour restreindre le user et non l'admin pour le choix des dates de booking
         ]);
     }
 }

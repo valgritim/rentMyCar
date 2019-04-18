@@ -33,9 +33,10 @@ class Booking
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Date(message="Attention la date d'arrivée doit être au bon format")
-     * @Assert\GreaterThan("today", message="La date de prise doit être ultérieure à la date d'aujourd'hui")
+     * @Assert\GreaterThan("today", message="La date de prise doit être ultérieure à la date d'aujourd'hui", groups={"front"})
      */
     private $startDate;
+    //voir les validatio_groups dans l'entité Booking
 
     /**
      * @ORM\Column(type="datetime")
@@ -64,6 +65,8 @@ class Booking
      * Callback appelé à chaque fois qu'on créée une réservation
      * 
      * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * 
      */
 
     public function prePersist(){
@@ -72,7 +75,7 @@ class Booking
         }
 
         if(empty($this->amount)){
-            //prix de l'annonce * nb de jours
+            //prix de l'annonce * nb de jours- 0 vaut empty
             $this->amount = $this->advert->getPrice() * $this->getDuration();
         }
     }

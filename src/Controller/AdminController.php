@@ -47,4 +47,29 @@ class AdminController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * Permet de supprimer une annonce
+     *
+     * @Route("/admin/adverts/{id}/delete", name="admin_adverts_delete")
+     * 
+     * @param Advert $advert
+     * @param ObjectManager $manager
+     * @return Response
+     */
+    public function delete(Advert $advert, ObjectManager $manager){
+        if(count($advert->getBookings()) > 0){
+
+            $this->addFlash('warning', "Vous ne pouvez pas supprimer cette annonce car elle possède déjà des réservations !");
+        } else {
+            $manager->remove($advert);
+        $manager->flush();
+
+        $this->addFlash("success", "L'annonce <strong>{$advert->getTitle()}</strong> a bien été supprimée ! ");
+
+        };
+        
+        
+        return $this->redirectToRoute('admin_adverts');
+    }
 }
