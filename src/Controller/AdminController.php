@@ -4,21 +4,26 @@ namespace App\Controller;
 
 use App\Entity\Advert;
 use App\Form\AdvertType;
+use App\Service\PaginationService;
 use App\Repository\AdvertRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Common\Persistence\ObjectManager;
 
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/admin/adverts", name="admin_adverts")
+     * @Route("/admin/adverts/{page<\d+>?1}", name="admin_adverts")
+     * 
      */
-    public function index(AdvertRepository $repo)
-    {
+    public function index(AdvertRepository $repo, $page, PaginationService $pagination)
+    {   
+        $pagination->setEntityClass(Advert::class)
+                    ->setCurrentPage($page);
+        
         return $this->render('admin/advert/index.html.twig', [
-            'adverts' => $repo->findAll()
+            'pagination' => $pagination
         ]);
     }
 
