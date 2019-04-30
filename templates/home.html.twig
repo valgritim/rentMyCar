@@ -4,6 +4,7 @@
     Le  meilleur réseau de voitures entre particuliers
 {% endblock %}
 {% block body %}
+
 <div class="container">
     <div class="jumbotron mt-2">
         <h1 class="display-3" id="bienvenue">Bienvenue sur RentMyCar</h1>
@@ -17,84 +18,30 @@
     </div>
     <h2 id="stars">Nos voitures stars</h2>
     <div class="row mt-4 mb-3">
-        <div class="col-md-4">
-            <div class="card mb-3 border-warning">
-                <div class="card-header text-center">
-                    <p class="card-text">Fiat Tipo <strong>5 Places</strong></p>
-                    <small>Pas encore noté!</small>
-                </div>
-                    <img style="height: 200px; width: 100%; display: block;" src="http://placehold.it/1000x400">
-                
-                <div class="card-body">
-                    <h4 class="card-title">Quasi-neuve!</h4>
-                    <p class="card-texte">Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, nihil doloremque provident fugit quis saepe! Maiores provident explicabo accusamus optio.</p>
-                    <a href="#" class="btn btn-primary">Voir le véhicule</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card mb-3 border-warning">
-                <div class="card-header text-center">
-                    <p class="card-text">Fiat Tipo <strong>5 Places</strong></p>
-                     <small>Pas encore noté!</small>
-                </div>
-                    <img style="height: 200px; width: 100%; display: block;" src="http://placehold.it/1000x400">
-                
-                <div class="card-body">
-                    <h4 class="card-title">Quasi-neuve!</h4>
-                    <p class="card-texte">Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, nihil doloremque provident fugit quis saepe! Maiores provident explicabo accusamus optio.</p>
-                    <a href="#" class="btn btn-primary">Voir le véhicule</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card mb-3 border-warning">
-                <div class="card-header text-center">
-                    <p class="card-text">Fiat Tipo <strong>5 Places</strong></p>
-                     <small>Pas encore noté!</small>
-                </div>
-                    <img style="height: 200px; width: 100%; display: block;" src="http://placehold.it/1000x400" alt="véhicule à louer">
-                                    
-                <div class="card-body">
-                    <h4 class="card-title">Quasi-neuve!</h4>
-                    <p class="card-texte">Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, nihil doloremque provident fugit quis saepe! Maiores provident explicabo accusamus optio.</p>
-                    <a href="#" class="btn btn-primary">Voir le véhicule</a>
-                </div>
-            </div>
-        </div>
+        {% for data in adverts %}
+            {% include 'advert/_adverts.html.twig' with {'advert': data.annonce} %}
+        {% endfor %}
     </div>
 
     <h2 id="proprioStars"class="mt-4 mb-3">Nos propriétaires stars</h2>
     <div class="row">
+    {% for data in users %}
         <div class="col">
             <div class="card border-secondary mb-3">
                 <div class="card-body">
-                    <h4 class="card-title">Alexis Montanoo</h4>
+                    <h4 class="card-title">{{data.user.firstName}} {{data.user.lastName}}</h4>
                     <hr>
                     <div class="card-text">
-                        <img src="http://placehold.it/64x64" alt="Avatr d'Alexis Montanoo" class="float-left mr-3">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti, neque?</p>
-                        <a href="#" class="btn btn-success float-right">En savoir plus!</a>
+                        <img src="{{data.user.picture}}" alt="Avatar de {{data.user.firstName}} {{data.user.lastName}}" class="float-left mr-3">
+                        <p>{{data.user.introduction}}}</p>
+                        <a href="{{ path('user_show', {'slug': data.user.slug })}}" class="btn btn-success float-right">En savoir plus!</a>
                     </div>
                 </div>
 
             </div>
-        </div>
-   
-        <div class="col">
-            <div class="card border-secondary mb-3">
-                <div class="card-body">
-                    <h4 class="card-title">Alexis Montanoo</h4>
-                    <hr>
-                    <div class="card-text">
-                        <img src="http://placehold.it/64x64" alt="Avatr d'Alexis Montanoo" class="float-left mr-3">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti, neque?</p>
-                        <a href="#" class="btn btn-success float-right">En savoir plus!</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        </div> 
+        {% endfor %} 
+        
     </div>
 </div>
 {% endblock %}
